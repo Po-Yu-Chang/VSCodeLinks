@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(od:*)",
+      "Bash(xxd:*)"
+    ],
+    "deny": []
+  }
+}
