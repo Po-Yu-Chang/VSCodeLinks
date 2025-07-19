@@ -25,12 +25,12 @@ namespace CodeLinks.Navigation
     internal sealed class CodeLinkMarginProvider : IWpfTextViewMarginProvider
     {
         [Import] 
-        internal IViewTagAggregatorFactoryService TagAggregatorFactory { get; set; } = null!;
+        internal IViewTagAggregatorFactoryService TagAggregatorFactory { get; set; }
         
         [Import] 
-        internal SVsServiceProvider ServiceProvider { get; set; } = null!;
+        internal SVsServiceProvider ServiceProvider { get; set; }
 
-        public IWpfTextViewMargin? CreateMargin(IWpfTextViewHost host, IWpfTextViewMarginContainer container)
+        public IWpfTextViewMargin CreateMargin(IWpfTextViewHost host, IWpfTextViewMargin container)
         {
             var uiShell = ServiceProvider.GetService(typeof(SVsUIShell)) as IVsUIShell;
             return new CodeLinkMargin(host.TextView, TagAggregatorFactory, uiShell);
@@ -62,7 +62,6 @@ namespace CodeLinks.Navigation
             _tagAggregator.TagsChanged += OnTagsChanged;
             _textView.LayoutChanged += OnLayoutChanged;
             _textView.ViewportHeightChanged += OnViewportChanged;
-            _textView.ViewportTopChanged += OnViewportChanged;
 
             // 初始繪製
             RedrawMargins();
@@ -196,7 +195,6 @@ namespace CodeLinks.Navigation
                 {
                     _textView.LayoutChanged -= OnLayoutChanged;
                     _textView.ViewportHeightChanged -= OnViewportChanged;
-                    _textView.ViewportTopChanged -= OnViewportChanged;
                 }
 
                 Children.Clear();

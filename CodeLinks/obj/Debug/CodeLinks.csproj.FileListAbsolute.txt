@@ -1,0 +1,14 @@
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\CodeLinks.csproj.AssemblyReference.cache
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\_EmptyResource.resources
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\CodeLinks.csproj.GenerateResource.cache
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\CodeLinks.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\CodeLinks.csproj.CoreCompileInputs.cache
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\bin\Debug\CodeLinks.dll
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\bin\Debug\CodeLinks.pdb
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\CodeLinks.dll
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\CodeLinks.pdb
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\bin\Debug\CodeLinks.vsix
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\extension.vsixmanifest
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\files.json
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\createTemplateManifests.cache
+C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\bin\Debug\LICENSE

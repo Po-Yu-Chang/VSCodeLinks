@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Do9VV1QK2LM=",
+  "dgSpecHash": "5jwbwQo3VDw=",
   "success": true,
   "projectFilePath": "C:\\Users\\qoose\\Desktop\\VSCodeLinks\\CodeLinks\\CodeLinks.csproj",
   "expectedPackageFiles": [
@@ -92,6 +92,9 @@
     "C:\\Users\\qoose\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\qoose\\.nuget\\packages\\nerdbank.streams\\2.6.81\\nerdbank.streams.2.6.81.nupkg.sha512",
     "C:\\Users\\qoose\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\qoose\\.nuget\\packages\\runtime.any.system.io\\4.3.0\\runtime.any.system.io.4.3.0.nupkg.sha512",
+    "C:\\Users\\qoose\\.nuget\\packages\\runtime.any.system.runtime\\4.3.0\\runtime.any.system.runtime.4.3.0.nupkg.sha512",
+    "C:\\Users\\qoose\\.nuget\\packages\\runtime.win.microsoft.win32.primitives\\4.3.0\\runtime.win.microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\qoose\\.nuget\\packages\\stdole\\17.0.32112.339\\stdole.17.0.32112.339.nupkg.sha512",
     "C:\\Users\\qoose\\.nuget\\packages\\streamjsonrpc\\2.8.28\\streamjsonrpc.2.8.28.nupkg.sha512",
     "C:\\Users\\qoose\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",

@@ -18,12 +18,9 @@ namespace CodeLinks.Tagging
     internal sealed class CodeLinkTaggerProvider : ITaggerProvider
     {
         [Import] 
-        internal ITextSearchService TextSearchService { get; set; } = null!;
-        
-        [Import] 
-        internal IClassificationTypeRegistryService ClassificationRegistry { get; set; } = null!;
+        internal IClassificationTypeRegistryService ClassificationRegistry { get; set; }
 
-        public ITagger<T>? CreateTagger<T>(ITextBuffer buffer) where T : ITag
+        public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
             return buffer.Properties.GetOrCreateSingletonProperty(
                 () => new CodeLinkTagger(buffer, ClassificationRegistry)) as ITagger<T>;
@@ -36,8 +33,8 @@ namespace CodeLinks.Tagging
     internal sealed class CodeLinkTagger : ITagger<CodeLinkTag>
     {
         // 比對 // tag:#key 或 // goto:#key 的正規表達式
-        private readonly Regex _regex = new(@"//\s*(?<kind>tag|goto):#?(?<key>[A-Za-z][\w]*)",
-                                           RegexOptions.Compiled);
+        private readonly Regex _regex = new Regex(@"//\s*(?<kind>tag|goto):#?(?<key>[A-Za-z][\w]*)",
+                                                  RegexOptions.Compiled);
         private readonly ITextBuffer _buffer;
         private readonly IClassificationType _classType;
 
@@ -73,6 +70,6 @@ namespace CodeLinks.Tagging
             }
         }
 
-        public event EventHandler<SnapshotSpanEventArgs>? TagsChanged;
+        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
     }
 }

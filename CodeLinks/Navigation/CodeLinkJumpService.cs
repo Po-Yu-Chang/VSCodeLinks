@@ -77,7 +77,7 @@ namespace CodeLinks.Navigation
                     }
 
                     // 檢查是否為 C# 檔案
-                    if (item.Kind == Constants.vsProjectItemKindPhysicalFile && 
+                    if (item.Kind == EnvDTE.Constants.vsProjectItemKindPhysicalFile && 
                         item.Name?.EndsWith(".cs", StringComparison.OrdinalIgnoreCase) == true)
                     {
                         if (SearchInFile(item, regex))
@@ -100,7 +100,7 @@ namespace CodeLinks.Navigation
 
             try
             {
-                var window = item.Open(Constants.vsViewKindTextView);
+                var window = item.Open(EnvDTE.Constants.vsViewKindTextView);
                 if (window?.Document is TextDocument textDoc)
                 {
                     var text = textDoc.StartPoint.CreateEditPoint().GetText(textDoc.EndPoint);
