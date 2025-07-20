@@ -5,7 +5,10 @@
       "Bash(ls:*)",
       "Bash(find:*)",
       "Bash(od:*)",
-      "Bash(xxd:*)"
+      "Bash(xxd:*)",
+      "Bash(ls:*)",
+      "Bash(msbuild:*)",
+      "Bash(dotnet build:*)"
     ],
     "deny": []
   }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--  這是定義實際命令、選單、群組和按鈕的檔案。此檔案由編譯器使用，
+        以產生可載入 VS 的實際命令集合。 -->
+
+  <!--  定義要使用的 GUID -->
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <!--命令-->
+  <Commands package="guidCodeLinksPackage">
+    <!-- 群組內 -->
+    <Groups>
+      <Group guid="guidCodeLinksPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>
+    </Groups>
+
+    <!--按鈕，表示使用者可以與之互動的元素。按鈕可以有不同的表現型態：
+        Button、MenuButton 和 SplitDropDown -->
+    <Buttons>
+      <!--若要定義選單項目，請從這裡開始： -->
+      <Button guid="guidCodeLinksPackageCmdSet" id="JumpCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidCodeLinksPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>跳轉到標籤</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <!--點陣圖區段用來定義將用於命令的點陣圖。 -->
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="Resources\Command.png" usedList="bmpPic1"/>
+    </Bitmaps>
+  </Commands>
+
+  <Symbols>
+    <!-- 這是套件的 GUID。 -->
+    <GuidSymbol name="guidCodeLinksPackage" value="{12345678-1234-5678-9abc-123456789012}" />
+
+    <!-- 這是命令集的 GUID。 -->
+    <GuidSymbol name="guidCodeLinksPackageCmdSet" value="{87654321-4321-8765-cba9-210987654321}">
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="JumpCommandId" value="0x0100" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidImages" value="{f2dbd067-e259-40c6-9b58-b2af7c8cf1d4}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>
