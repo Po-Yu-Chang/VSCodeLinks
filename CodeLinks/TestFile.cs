@@ -23,7 +23,8 @@ namespace TestProject
         public void AnotherMethod()
         {
             // goto:#Helper
-            // goto:#MainMethod     
+            // goto:#MainMethod
+            // goto:#CrossFileTarget  
         }
     }
 }

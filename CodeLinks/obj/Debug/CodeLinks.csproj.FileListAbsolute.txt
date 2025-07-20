@@ -11,5 +11,4 @@ C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\bin\Debug\CodeLinks.vsix
 C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\extension.vsixmanifest
 C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\files.json
 C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\obj\Debug\createTemplateManifests.cache
-C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\bin\Debug\LICENSE
 C:\Users\qoose\Desktop\VSCodeLinks\CodeLinks\bin\Debug\extension.vsixmanifest

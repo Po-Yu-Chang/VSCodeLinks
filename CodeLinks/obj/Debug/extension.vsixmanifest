@@ -1,11 +1,10 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Id="CodeLinks.12345678-1234-5678-9012-123456789012" Version="1.0.0" Language="en-US" Publisher="Your Name" />
+    <Identity Id="CodeLinks.12345678-1234-5678-9012-123456789012" Version="1.1.0" Language="en-US" Publisher="Your Name" />
     <DisplayName>CodeLinks</DisplayName>
-    <Description xml:space="preserve">Visual Studio 擴充功能，提供 // tag:#... → // goto:#... 跳轉功能</Description>
+    <Description xml:space="preserve">Visual Studio 擴充功能，提供 // tag:#... → // goto:#... 跳轉功能，支援跨檔案導航</Description>
     <MoreInfo>https://github.com/Po-Yu-Chang/VSCodeLinks</MoreInfo>
-    <License>LICENSE</License>
-    <ReleaseNotes>v1.0.0 - 初始版本</ReleaseNotes>
+    <ReleaseNotes>v1.1.0 - 新增跨檔案跳轉功能，智慧專案偵測</ReleaseNotes>
     <Tags>navigation, code, tags, goto, jump</Tags>
   </Metadata>
   <Installation>

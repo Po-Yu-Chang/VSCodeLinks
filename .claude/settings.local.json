@@ -9,7 +9,8 @@
       "Bash(ls:*)",
       "Bash(msbuild:*)",
       "Bash(dotnet build:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
