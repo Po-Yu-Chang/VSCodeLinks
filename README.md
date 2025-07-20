@@ -2,13 +2,14 @@
 
 ## 功能概覽
 
-CodeLinks 是一個輕量級的 Visual Studio 2022 擴充功能，提供便利的程式碼導航功能：
+CodeLinks 是一個高效能的 Visual Studio 2022 擴充功能，提供便利的程式碼導航功能：
 
 - 📍 在註解中寫 `// tag:#MySpot` 以宣告「定位點」（藍色標記）
 - 🔗 在其他地方寫 `// goto:#MySpot` 生成綠色標記
 - 🖱️ **雙擊** `goto` 標記即可跳至對應定位點
-- ⚡ 即時更新，無外部相依
-- 🎯 純 MEF 架構，穩定可靠
+- ⚡ **高效能索引快取** - 大專案也能秒跳轉
+- 🚀 **懶載入** - 第一次使用才建立索引，不影響啟動速度
+- 🎯 純 MEF 架構，穩定可靠，無外部相依
 
 ## 安裝需求
 
@@ -86,8 +87,13 @@ private static void CallHelper()
 
 ### 功能特色
 
-- **同檔案跳轉**: 在同一個檔案內快速跳轉
-- **跨檔案跳轉**: 自動搜尋專案中的其他檔案
+- **同檔案跳轉**: 在同一個檔案內快速跳轉（毫秒級）
+- **跨檔案跳轉**: 使用索引快取實現秒級跳轉，無論專案多大
+- **高效能架構**: 
+  - 🔥 **懶載入索引** - 只在第一次使用時建立，避免啟動延遲
+  - ⚡ **O(1) 查詢** - 使用 ConcurrentDictionary 實現極速查找
+  - 🚀 **並行掃描** - 多執行緒並行建立索引，提升速度
+  - 💾 **記憶體最佳化** - 輕量級資料結構，減少記憶體使用
 - **智慧搜尋**: 自動偵測專案根目錄（.csproj, .sln, .git）
 - **即時更新**: 程式碼變更時會自動重新整理標記
 - **視覺化提示**: 
@@ -100,19 +106,25 @@ private static void CallHelper()
 ```
 CodeLinks/
 ├── Properties/
-│   └── AssemblyInfo.cs         # 組件資訊
-├── CodeLinks.csproj            # 專案檔
+│   └── AssemblyInfo.cs             # 組件資訊
+├── CodeLinks.csproj                # 專案檔
 ├── source.extension.vsixmanifest  # VSIX 資訊清單
-├── UltraSimpleExtension.cs     # 核心實作
-└── TestFile.cs                 # 功能測試範例
+├── PerformantNavigationExtension.cs # 高效能核心實作
+├── TestFile.cs                     # 功能測試範例
+└── TestFile2.cs                    # 跨檔案測試範例
 ```
 
 ## 技術架構
 
 - **標記器 (Tagger)**: 使用正規表達式識別 `// tag:#` 和 `// goto:#` 模式
 - **滑鼠處理器**: 處理雙擊事件觸發跳轉
+- **索引管理器**: 
+  - 使用 `ConcurrentDictionary<string, List<TagLocation>>` 快取所有標籤
+  - `SemaphoreSlim` 確保索引只建立一次
+  - 並行檔案掃描，支援大專案
 - **純 MEF 架構**: 使用 Managed Extensibility Framework
 - **ITextMarkerTag**: 提供語法高亮功能
+- **非同步導航**: 避免阻塞 UI 執行緒
 
 ### 支援的語言
 
@@ -154,13 +166,21 @@ CodeLinks/
 
 ## 版本歷史
 
+- **v1.2.0** (2025-07-20) - 高效能版本
+  - 🚀 **索引快取技術** - 解決大專案效能問題
+  - ⚡ **懶載入** - 第一次使用才建立索引
+  - 🔥 **O(1) 查詢** - 使用字典實現極速跳轉
+  - 💨 **並行掃描** - 多執行緒建立索引
+  - 📊 **效能監控** - 提供索引建立時間統計
+  - 🛡️ **執行緒安全** - ConcurrentDictionary + SemaphoreSlim
+  - 🔄 **非同步導航** - 不阻塞 UI 執行緒
+
 - **v1.1.0** (2025-07-20) - 跨檔案跳轉版本
   - 基本的 tag/goto 功能
   - 雙擊跳轉支援
   - 藍色/綠色語法高亮
   - 跨檔案導航功能
   - 智慧專案偵測
-  - 純 MEF 架構，穩定可靠
 
 ## 授權
 
