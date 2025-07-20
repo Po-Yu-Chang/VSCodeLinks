@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="CodeLinks.12345678-1234-5678-9012-123456789012" Version="1.1.0" Language="en-US" Publisher="Your Name" />
-    <DisplayName>CodeLinks</DisplayName>
-    <Description xml:space="preserve">Visual Studio 擴充功能，提供 // tag:#... → // goto:#... 跳轉功能，支援跨檔案導航</Description>
+    <Identity Id="CodeLinks.12345678-1234-5678-9012-123456789012" Version="1.1.0" Language="en-US" Publisher="Po-Yu-Chang" />
+    <DisplayName>CodeLinks - 輕量級程式碼導航工具</DisplayName>
+    <Description xml:space="preserve">Visual Studio 2022 擴充功能，提供便利的程式碼導航功能：使用 // tag:#標籤名稱 建立定位點，// goto:#標籤名稱 建立跳轉連結，雙擊 goto 標記即可跳轉。支援同檔案內跳轉和跨檔案跳轉，純 MEF 架構，穩定可靠。</Description>
     <MoreInfo>https://github.com/Po-Yu-Chang/VSCodeLinks</MoreInfo>
-    <ReleaseNotes>v1.1.0 - 新增跨檔案跳轉功能，智慧專案偵測</ReleaseNotes>
-    <Tags>navigation, code, tags, goto, jump</Tags>
+    <ReleaseNotes>v1.1.0 (2025-07-20) - 跨檔案跳轉版本：基本的 tag/goto 功能，雙擊跳轉支援，藍色/綠色語法高亮，跨檔案導航功能，智慧專案偵測，純 MEF 架構，穩定可靠</ReleaseNotes>
+    <Tags>navigation, code, tags, goto, jump, 程式碼導航, 跳轉, Visual Studio 2022</Tags>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,18.0)">

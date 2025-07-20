@@ -1,3 +1,18 @@
+/// <summary>
+/// CodeLinks - Visual Studio 擴充功能
+/// 
+/// 輕量級的程式碼導航工具，提供便利的標籤跳轉功能：
+/// - 📍 使用 // tag:#標籤名稱 建立定位點（藍色標記）
+/// - 🔗 使用 // goto:#標籤名稱 建立跳轉連結（綠色標記）
+/// - 🖱️ 雙擊 goto 標記即可跳轉到對應的定位點
+/// - ⚡ 支援同檔案內跳轉和跨檔案跳轉
+/// - 🎯 純 MEF 架構，穩定可靠，無外部相依
+/// 
+/// 版本：v1.1.0
+/// 作者：Po-Yu-Chang
+/// 授權：MIT License
+/// </summary>
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -13,6 +28,32 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace CodeLinks
 {
+    /// <summary>
+    /// CodeLinks 擴充功能常數定義
+    /// </summary>
+    internal static class Constants
+    {
+        /// <summary>
+        /// 擴充功能版本號
+        /// </summary>
+        public const string Version = "1.1.0";
+        
+        /// <summary>
+        /// 擴充功能名稱
+        /// </summary>
+        public const string Name = "CodeLinks";
+        
+        /// <summary>
+        /// 標籤定義的正規表達式模式
+        /// </summary>
+        public const string TagPattern = @"//\s*tag:#(\w+)";
+        
+        /// <summary>
+        /// 跳轉指令的正規表達式模式
+        /// </summary>
+        public const string GotoPattern = @"//\s*goto:#(\w+)";
+    }
+
     /// <summary>
     /// 標記器提供者 - 負責建立文字標記器
     /// 這是 Visual Studio 擴展的入口點，用於建立文字標記功能
@@ -49,10 +90,10 @@ namespace CodeLinks
         
         // 編譯時正規表達式，提升效能
         // 匹配格式：// tag:#標籤名稱（定義標籤）
-        private static readonly Regex TagRegex = new Regex(@"//\s*tag:#(\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex TagRegex = new Regex(Constants.TagPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         
         // 匹配格式：// goto:#標籤名稱（跳轉到標籤）
-        private static readonly Regex GotoRegex = new Regex(@"//\s*goto:#(\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex GotoRegex = new Regex(Constants.GotoPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 建構函式 - 初始化標記器
@@ -61,7 +102,7 @@ namespace CodeLinks
         public UltraSimpleTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
-            System.Diagnostics.Debug.WriteLine("UltraSimple: Tagger created");
+            System.Diagnostics.Debug.WriteLine($"{Constants.Name} v{Constants.Version}: Tagger created");
         }
 
         /// <summary>
@@ -141,7 +182,7 @@ namespace CodeLinks
         private readonly IWpfTextView _textView; // 關聯的文字檢視
         
         // 用於匹配 goto 指令的正規表達式
-        private static readonly Regex GotoRegex = new Regex(@"//\s*goto:#(\w+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex GotoRegex = new Regex(Constants.GotoPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 建構函式 - 初始化滑鼠處理器
@@ -171,14 +212,14 @@ namespace CodeLinks
                 // 檢查是否是雙擊事件
                 if (e.ClickCount == 2)
                 {
-                    System.Diagnostics.Debug.WriteLine("UltraSimple: Double click detected");
+                    System.Diagnostics.Debug.WriteLine($"{Constants.Name}: Double click detected");
 
                     // 取得游標位置和所在行的文字
                     var position = _textView.Caret.Position.BufferPosition;
                     var line = position.GetContainingLine();
                     var lineText = line.GetText();
 
-                    System.Diagnostics.Debug.WriteLine($"UltraSimple: Line text: {lineText}");
+                    System.Diagnostics.Debug.WriteLine($"{Constants.Name}: Line text: {lineText}");
 
                     // 檢查該行是否包含 goto 指令
                     if (lineText.Contains("goto:#"))
@@ -188,13 +229,13 @@ namespace CodeLinks
                         {
                             // 提取標籤名稱
                             var key = match.Groups[1].Value;
-                            System.Diagnostics.Debug.WriteLine($"UltraSimple: Found goto key: {key}");
+                            System.Diagnostics.Debug.WriteLine($"{Constants.Name}: Found goto key: {key}");
 
                             // 步驟1: 在當前檔案中搜尋對應的標籤
                             var targetPos = FindTagInBuffer(key);
                             if (targetPos.HasValue)
                             {
-                                System.Diagnostics.Debug.WriteLine($"UltraSimple: Navigating to tag in current file: {key}");
+                                System.Diagnostics.Debug.WriteLine($"{Constants.Name}: Navigating to tag in current file: {key}");
                                 _textView.Caret.MoveTo(targetPos.Value);
                                 _textView.ViewScroller.EnsureSpanVisible(new SnapshotSpan(targetPos.Value, 0));
                                 e.Handled = true; // 標記事件已處理，避免其他處理器重複處理
@@ -205,7 +246,7 @@ namespace CodeLinks
                             var crossFileTarget = FindTagInProject(key);
                             if (crossFileTarget != null)
                             {
-                                System.Diagnostics.Debug.WriteLine($"UltraSimple: Found tag in project file: {crossFileTarget.FilePath}");
+                                System.Diagnostics.Debug.WriteLine($"{Constants.Name}: Found tag in project file: {crossFileTarget.FilePath}");
                                 NavigateToFile(crossFileTarget.FilePath, crossFileTarget.Line, crossFileTarget.Column);
                                 e.Handled = true;
                                 return;
@@ -216,7 +257,7 @@ namespace CodeLinks
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"UltraSimple: Mouse processor error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"{Constants.Name}: Mouse processor error: {ex.Message}");
             }
 
             // 如果沒有處理事件，則傳遞給基底類別
@@ -267,50 +308,30 @@ namespace CodeLinks
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"UltraSimple: Starting project search for key: {key}");
-                
                 // 取得當前文件的檔案路徑
                 if (!_textView.TextBuffer.Properties.TryGetProperty<ITextDocument>(typeof(ITextDocument), out var textDocument))
                 {
-                    System.Diagnostics.Debug.WriteLine("UltraSimple: Could not get ITextDocument from buffer properties");
                     return null;
                 }
                 
                 if (textDocument?.FilePath == null)
                 {
-                    System.Diagnostics.Debug.WriteLine("UltraSimple: TextDocument.FilePath is null");
                     return null;
                 }
-
-                System.Diagnostics.Debug.WriteLine($"UltraSimple: Current file path: {textDocument.FilePath}");
                 
                 var currentDir = Path.GetDirectoryName(textDocument.FilePath);
-                System.Diagnostics.Debug.WriteLine($"UltraSimple: Current directory: {currentDir}");
-                
                 var projectRoot = FindProjectRoot(currentDir);
-                System.Diagnostics.Debug.WriteLine($"UltraSimple: Project root: {projectRoot}");
                 
                 if (projectRoot == null) 
                 {
-                    System.Diagnostics.Debug.WriteLine("UltraSimple: Project root not found");
                     return null;
                 }
 
-                var result = SearchTagInDirectory(projectRoot, key, textDocument.FilePath);
-                if (result != null)
-                {
-                    System.Diagnostics.Debug.WriteLine($"UltraSimple: Found tag in file: {result.FilePath} at line {result.Line}");
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine($"UltraSimple: Tag '{key}' not found in project");
-                }
-                
-                return result;
+                return SearchTagInDirectory(projectRoot, key, textDocument.FilePath);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"UltraSimple: Project search error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"{Constants.Name}: Project search error: {ex.Message}");
                 return null;
             }
         }
@@ -350,6 +371,7 @@ namespace CodeLinks
         /// <summary>
         /// 在指定目錄及其子目錄中搜尋包含目標標籤的檔案
         /// 支援多種程式語言的檔案類型，並逐行掃描檔案內容
+        /// 支援的檔案類型：.cs, .vb, .js, .ts, .txt, .xml, .html, .css, .cpp, .h, .py, .java
         /// </summary>
         /// <param name="directory">要搜尋的根目錄</param>
         /// <param name="key">要搜尋的標籤名稱</param>
@@ -357,16 +379,11 @@ namespace CodeLinks
         /// <returns>如果找到標籤則回傳 TagLocation，否則回傳 null</returns>
         private TagLocation SearchTagInDirectory(string directory, string key, string currentFilePath)
         {
-            System.Diagnostics.Debug.WriteLine($"UltraSimple: Searching for tag '{key}' in directory: {directory}");
-            
             // 建立精確的標籤搜尋模式
             var targetPattern = $@"//\s*tag:#{Regex.Escape(key)}\b";
             var regex = new Regex(targetPattern, RegexOptions.IgnoreCase);
-            
-            System.Diagnostics.Debug.WriteLine($"UltraSimple: Search pattern: {targetPattern}");
 
-            // 支援的程式語言檔案副檔名
-            // 包含常見的程式語言和標記語言
+            // 支援的程式語言檔案副檔名（符合 README.md 中的描述）
             var extensions = new[] { ".cs", ".vb", ".js", ".ts", ".txt", ".xml", ".html", ".css", ".cpp", ".h", ".py", ".java" };
 
             // 逐一搜尋每種檔案類型
@@ -376,18 +393,12 @@ namespace CodeLinks
                 {
                     // 遞迴搜尋指定副檔名的所有檔案
                     var files = Directory.GetFiles(directory, $"*{ext}", SearchOption.AllDirectories);
-                    System.Diagnostics.Debug.WriteLine($"UltraSimple: Found {files.Length} {ext} files");
                     
                     foreach (var file in files)
                     {
-                        System.Diagnostics.Debug.WriteLine($"UltraSimple: Checking file: {file}");
-                        
                         // 跳過當前檔案，避免重複搜尋
                         if (file.Equals(currentFilePath, StringComparison.OrdinalIgnoreCase))
-                        {
-                            System.Diagnostics.Debug.WriteLine($"UltraSimple: Skipping current file: {file}");
                             continue;
-                        }
 
                         try
                         {
@@ -411,14 +422,14 @@ namespace CodeLinks
                         catch (Exception ex)
                         {
                             // 記錄檔案讀取錯誤，但繼續搜尋其他檔案
-                            System.Diagnostics.Debug.WriteLine($"UltraSimple: File read error {file}: {ex.Message}");
+                            System.Diagnostics.Debug.WriteLine($"{Constants.Name}: File read error {file}: {ex.Message}");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     // 記錄目錄搜尋錯誤，但繼續搜尋其他檔案類型
-                    System.Diagnostics.Debug.WriteLine($"UltraSimple: Directory search error for {ext}: {ex.Message}");
+                    System.Diagnostics.Debug.WriteLine($"{Constants.Name}: Directory search error for {ext}: {ex.Message}");
                 }
             }
 
@@ -456,7 +467,7 @@ namespace CodeLinks
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"UltraSimple: Navigate to file error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"{Constants.Name}: Navigate to file error: {ex.Message}");
             }
         }
     }

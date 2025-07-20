@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 
 // 組件的一般資訊是由下列的屬性集控制。
 // 變更這些屬性的值即可修改組件的相關資訊。
-[assembly: AssemblyTitle("CodeLinks")]
-[assembly: AssemblyDescription("Visual Studio 擴充功能，提供 // tag:#... → // goto:#... 跳轉功能")]
+[assembly: AssemblyTitle("CodeLinks - 輕量級程式碼導航工具")]
+[assembly: AssemblyDescription("Visual Studio 2022 擴充功能，提供便利的程式碼導航功能：使用 // tag:#標籤名稱 建立定位點，// goto:#標籤名稱 建立跳轉連結，雙擊 goto 標記即可跳轉。支援同檔案內跳轉和跨檔案跳轉，純 MEF 架構，穩定可靠。")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Your Name")]
+[assembly: AssemblyCompany("Po-Yu-Chang")]
 [assembly: AssemblyProduct("CodeLinks")]
-[assembly: AssemblyCopyright("Copyright © 2025")]
+[assembly: AssemblyCopyright("Copyright © 2025 Po-Yu-Chang. MIT License.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // 您可以指定所有的值，或預設組建編號和修訂編號
 // 方法是使用 '*'，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
