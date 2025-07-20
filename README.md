@@ -2,13 +2,13 @@
 
 ## 功能概覽
 
-CodeLinks 是一個 Visual Studio 2022 擴充功能，提供便利的程式碼導航功能：
+CodeLinks 是一個輕量級的 Visual Studio 2022 擴充功能，提供便利的程式碼導航功能：
 
-- 📍 在註解中寫 `// tag:#MySpot` 以宣告「定位點」
-- 🔗 在其他地方寫 `// goto:#MySpot` 生成可點擊的藍色箭頭條
-- 🖱️ Click / Ctrl+Click 即可跳至對應定位點
-- 🔍 支援跨檔案 / 跨專案搜尋
+- 📍 在註解中寫 `// tag:#MySpot` 以宣告「定位點」（藍色標記）
+- 🔗 在其他地方寫 `// goto:#MySpot` 生成綠色標記
+- 🖱️ **雙擊** `goto` 標記即可跳至對應定位點
 - ⚡ 即時更新，無外部相依
+- 🎯 純 MEF 架構，穩定可靠
 
 ## 安裝需求
 
@@ -30,7 +30,8 @@ CodeLinks 是一個 Visual Studio 2022 擴充功能，提供便利的程式碼�
    - 確保已安裝 "Visual Studio extension development" 工作負載
 
 3. **建置專案**
-   - 按 F6 或選擇 Build → Build Solution
+   - 按 F5 或選擇 Debug → Start Debugging
+   - 這會啟動實驗性 Visual Studio 實例來測試擴充功能
    - 建置完成後會在 `bin\Debug\` 資料夾中產生 `CodeLinks.vsix`
 
 4. **安裝擴充功能**
@@ -52,78 +53,75 @@ public void MyMethod()
 
 public void AnotherMethod()
 {
-    // goto:#方法名稱  ← 這裡會出現藍色箭頭，點擊可跳轉
+    // goto:#方法名稱  ← 雙擊這行可跳轉到上面的 tag
     MyMethod();
 }
 ```
 
 ### 範例
 
-查看 `Demo.cs` 檔案中的完整範例：
+查看 `TestFile.cs` 檔案中的完整範例：
 
 ```csharp
 // tag:#MainMethod
 public static void Main(string[] args)
 {
     Console.WriteLine("Hello World!");
-    
-    // goto:#HelperMethod  ← 點擊藍色箭頭跳轉
-    HelperMethod();
+    // goto:#Helper  ← 雙擊跳轉
 }
 
-// tag:#HelperMethod
-private static void HelperMethod()
+// tag:#Helper
+private static void CallHelper()
 {
     Console.WriteLine("Helper method called!");
-    
     // goto:#MainMethod  ← 可以跳回主方法
 }
 ```
 
+### 操作方式
+
+1. **建立標籤**: 使用 `// tag:#標籤名稱` 建立藍色標記
+2. **跳轉**: 使用 `// goto:#標籤名稱` 建立綠色標記
+3. **導航**: **雙擊** 包含 `goto` 的行即可跳轉
+
 ### 功能特色
 
-- **跨檔案支援**: 可以在不同的 .cs 檔案之間跳轉
+- **同檔案跳轉**: 在同一個檔案內快速跳轉
 - **即時更新**: 程式碼變更時會自動重新整理標記
-- **視覺化提示**: goto 標記會在右側邊緣顯示藍色箭頭
-- **工具提示**: 滑鼠懸停時顯示目標標記資訊
+- **視覺化提示**: 
+  - `tag` 標記顯示為藍色
+  - `goto` 標記顯示為綠色
+- **簡單穩定**: 純 MEF 架構，無複雜依賴
 
-## 開發資訊
-
-### 專案結構
+## 專案結構
 
 ```
 CodeLinks/
-├── Classification/           # 分類定義和格式
-│   └── CodeLinkClassificationDefinition.cs
-├── Tagging/                 # 標記識別和處理
-│   ├── CodeLinkTag.cs
-│   └── CodeLinkTagger.cs
-├── Navigation/              # 導航和 UI
-│   ├── CodeLinkMargin.cs
-│   └── CodeLinkJumpService.cs
 ├── Properties/
-│   └── AssemblyInfo.cs
-├── CodeLinks.csproj
-├── source.extension.vsixmanifest
-└── Demo.cs                  # 功能展示範例
+│   └── AssemblyInfo.cs         # 組件資訊
+├── CodeLinks.csproj            # 專案檔
+├── source.extension.vsixmanifest  # VSIX 資訊清單
+├── UltraSimpleExtension.cs     # 核心實作
+└── TestFile.cs                 # 功能測試範例
 ```
 
-### 技術架構
+## 技術架構
 
 - **標記器 (Tagger)**: 使用正規表達式識別 `// tag:#` 和 `// goto:#` 模式
-- **分類器 (Classifier)**: 定義標記的視覺樣式
-- **邊緣 (Margin)**: 在編輯器右側顯示可點擊的藍色箭頭
-- **跳轉服務**: 使用 DTE API 搜尋目標標記並執行跳轉
+- **滑鼠處理器**: 處理雙擊事件觸發跳轉
+- **純 MEF 架構**: 使用 Managed Extensibility Framework
+- **ITextMarkerTag**: 提供語法高亮功能
 
 ### 支援的語言
 
-目前支援：
+目前支援所有文字檔案類型：
 - C# (.cs 檔案)
-
-未來可能支援：
-- Visual Basic (.vb 檔案)
-- F# (.fs 檔案)
-- 其他程式語言
+- JavaScript (.js 檔案)  
+- TypeScript (.ts 檔案)
+- 純文字 (.txt 檔案)
+- XML (.xml 檔案)
+- HTML (.html 檔案)
+- 以及其他文字檔案
 
 ## 故障排除
 
@@ -134,12 +132,13 @@ CodeLinks/
    - 標記名稱必須以字母開頭，只能包含字母、數字和底線
 
 2. **跳轉功能無法運作**
-   - 確保目標標記存在於專案中的任何 .cs 檔案
-   - 檢查標記名稱是否完全一致（區分大小寫）
+   - 確保目標標記存在於同一個檔案中
+   - 檢查標記名稱是否完全一致（不區分大小寫）
+   - 嘗試雙擊整個 `goto` 行，而不只是部分文字
 
-3. **藍色箭頭沒有出現**
-   - 確保正在編輯 C# 檔案
-   - 嘗試重新載入檔案或重新啟動 Visual Studio
+3. **標記顏色沒有出現**
+   - 重新載入檔案或重新啟動 Visual Studio
+   - 確保擴充功能已正確安裝並啟用
 
 ### 除錯模式
 
@@ -147,34 +146,23 @@ CodeLinks/
 
 1. 在 Visual Studio 中開啟 CodeLinks 專案
 2. 按 F5 啟動實驗性實例
-3. 在實驗性實例中測試功能
+3. 在實驗性實例中開啟 `TestFile.cs` 測試功能
+4. 查看 Output 視窗的 Debug 訊息
 
-## 貢獻
+## 版本歷史
 
-歡迎貢獻此專案！請：
-
-1. Fork 此儲存庫
-2. 建立功能分支
-3. 提交您的變更
-4. 建立 Pull Request
+- **v1.0.0** (2025-07-20) - UltraSimple 版本
+  - 基本的 tag/goto 功能
+  - 雙擊跳轉支援
+  - 藍色/綠色語法高亮
+  - 純 MEF 架構，穩定可靠
 
 ## 授權
 
 此專案採用 MIT 授權 - 詳見 [LICENSE](LICENSE) 檔案
 
-## 作者
-
-- **Your Name** - 初始開發
-
-## 版本歷史
-
-- **v1.0.0** (2025-07-19) - 初始版本
-  - 基本的 tag/goto 功能
-  - 跨檔案跳轉支援
-  - 藍色箭頭視覺提示
-
 ## 參考資料
 
 - [Visual Studio Extensibility Documentation](https://learn.microsoft.com/visualstudio/extensibility)
 - [VSSDK Extensibility Samples](https://github.com/Microsoft/VSSDK-Extensibility-Samples)
-- [Roslyn Syntax API](https://learn.microsoft.com/dotnet/csharp/roslyn-sdk)
+- [MEF (Managed Extensibility Framework)](https://learn.microsoft.com/dotnet/framework/mef/)

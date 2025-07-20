@@ -8,7 +8,8 @@
       "Bash(xxd:*)",
       "Bash(ls:*)",
       "Bash(msbuild:*)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }

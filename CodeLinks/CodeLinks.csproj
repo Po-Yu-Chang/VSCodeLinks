@@ -43,13 +43,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classification\CodeLinkClassificationDefinition.cs" />
-    <Compile Include="Tagging\CodeLinkTag.cs" />
-    <Compile Include="Tagging\CodeLinkTagger.cs" />
-    <Compile Include="Navigation\CodeLinkMargin.cs" />
-    <Compile Include="Navigation\CodeLinkJumpService.cs" />
+    <Compile Include="UltraSimpleExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Demo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source.extension.vsixmanifest">
